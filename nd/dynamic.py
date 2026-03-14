@@ -39,6 +39,21 @@ def spectrum(trajectory: list):
     return spectrum
 
 
+def transition_energies(trajectory: list):
+    from transitions import energies
+    ans: list[float] = []
+
+    t = np.array(trajectory, dtype=str)
+    t_rolled = np.roll(t, shift=-1)
+    transitions = list(zip(t, t_rolled))
+
+    for s_from, s_to in transitions[:-1]:
+        transition_energy = energies[s_to] - energies[s_from]
+        ans.append(transition_energy)
+
+    return ans
+
+
 if __name__ == "__main__":
     from transitions import transitions
     trajectory = simulate("A", transitions, 20)
