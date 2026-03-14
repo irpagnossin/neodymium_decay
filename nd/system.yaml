@@ -1,0 +1,25 @@
+states:
+  - name: Nd
+    energy: 0.700
+  - name: A
+    energy: 0.500
+  - name: B
+    energy: 0.300
+  - name: C
+    energy: 0.050
+  - name: Pu
+    energy: 0.000
+
+transitions:
+  - transition: Nd -> A
+    probability: 0.20
+    type: Beta decay
+  - transition: Nd -> B
+    probability: 0.40
+    type: Beta decay
+  - transition: Nd -> C
+    probability: 0.30
+    type: Beta decay
+  - transition: Nd -> Pu
+    probability: 0.10
+    type: Beta decay
