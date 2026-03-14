@@ -1,5 +1,6 @@
 from dynamic import simulate
 from transitions import transitions
+from collections import Counter
 
 
 def merge_transitions(tA, tB: list[tuple[float, str]]):
@@ -39,7 +40,38 @@ def simulate_mc():
     return ans
 
 
+def simulate_last_state_abundance():
+    n_simulations: int = 10
+    last_states = Counter()
+
+    for _ in range(n_simulations):
+        trajectory, _ = simulate('A', transitions)
+        last_state = trajectory[-1]
+        last_states[last_state] += 1
+
+    total = sum(last_states.values())
+    frequencies = {state: count / total for state, count in last_states.items()}
+
+    return frequencies
+
+
+def plot_abundances(data):
+    import matplotlib.pyplot as plt
+
+    states = list(data.keys())
+    abundance = list(data.values())
+
+    plt.bar(states, abundance)
+    plt.xlabel("State")
+    plt.ylabel("Abundance ∈[0,1]")
+    plt.title("Last state abundance")
+    plt.ylim(0, 1)
+    plt.show()
+
+
 if __name__ == "__main__":
     energies = simulate_mc()
-    build_and_plot_spectrum(energies, 'Photon emission')
-    build_and_plot_spectrum(energies, 'Beta decay')
+    # build_and_plot_spectrum(energies, 'Photon emission')
+    # build_and_plot_spectrum(energies, 'Beta decay')
+    frequencies = simulate_last_state_abundance()
+    plot_abundances(frequencies)
