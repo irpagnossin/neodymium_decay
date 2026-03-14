@@ -1,48 +1,37 @@
 import random
 
-import numpy as np
-
 
 def step(state, transitions):
     """Return the next state"""
     if state not in transitions:
         raise StopIteration(f"Evolution stopped: state {state} has empty fringe.")
 
-    fringe, probs = zip(*transitions[state])
-    return random.choices(fringe, weights=probs)[0]
+    fringe, probs, process = zip(*transitions[state])
+    return random.choices(list(zip(fringe, process)), weights=probs)[0]
 
 
 def simulate(start_state, transitions, n_steps: int = 1_000):
+    from transitions import energies
+
     state = start_state
     trajectory = [state]
+    transitions_ = []
 
     try:
         for _ in range(n_steps):
-            state = step(state, transitions)
+            next_state, process = step(state, transitions)
+            transition_energy = energies[next_state] - energies[state]
+            state = next_state
             trajectory.append(state)
+            transitions_.append((transition_energy, process))
     except StopIteration:
         pass
 
-    return trajectory
-
-
-def transition_energies(trajectory: list):
-    from transitions import energies
-    ans: list[float] = []
-
-    t = np.array(trajectory, dtype=str)
-    t_rolled = np.roll(t, shift=-1)
-    transitions = list(zip(t, t_rolled))
-
-    for s_from, s_to in transitions[:-1]:
-        transition_energy = energies[s_to] - energies[s_from]
-        ans.append(transition_energy)
-
-    return ans
+    return trajectory, transitions_
 
 
 if __name__ == "__main__":
     from transitions import transitions
-    trajectory = simulate("A", transitions, 20)
+    trajectory, transitions = simulate("A", transitions, 20)
     print("Trajetória:", trajectory)
-    print("Energias de transição:", transition_energies(trajectory))
+    print("Transições:", transitions)
