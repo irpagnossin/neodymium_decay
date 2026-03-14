@@ -2,8 +2,9 @@ import random
 
 
 def step(state, transitions):
-    next_states, probs = zip(*transitions[state])
-    return random.choices(next_states, weights=probs)[0]
+    """Return the next state"""
+    fringe, probs = zip(*transitions[state])
+    return random.choices(fringe, weights=probs)[0]
 
 
 def simulate(start_state, transitions, n_steps):
