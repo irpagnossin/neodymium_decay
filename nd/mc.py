@@ -12,6 +12,19 @@ def merge_transitions(tA, tB: list[tuple[float, str]]):
     return tA
 
 
+def run(transitions_profile, start_state, n_simulations: int = 1_000):
+    last_states = Counter()
+    executed_transitions = {}
+
+    for _ in range(n_simulations):
+        trajectory, transitions = simulate(start_state, transitions_profile)
+        executed_transitions = merge_transitions(executed_transitions, transitions)
+        last_state = trajectory[-1]
+        last_states[last_state] += 1
+
+    return last_states, executed_transitions
+
+
 def build_and_plot_spectrum(
     energies: dict[str, list[float]],
     process: str,
@@ -29,37 +42,14 @@ def build_and_plot_spectrum(
     plt.show()
 
 
-def simulate_mc():
-    n_simulations: int = 10
-    ans = {}
-
-    for _ in range(n_simulations):
-        trajectory, transitions_ = simulate('A', transitions)
-        ans = merge_transitions(ans, transitions_)
-
-    return ans
-
-
-def simulate_last_state_abundance():
-    n_simulations: int = 10
-    last_states = Counter()
-
-    for _ in range(n_simulations):
-        trajectory, _ = simulate('A', transitions)
-        last_state = trajectory[-1]
-        last_states[last_state] += 1
-
-    total = sum(last_states.values())
-    frequencies = {state: count / total for state, count in last_states.items()}
-
-    return frequencies
-
-
 def plot_abundances(data):
     import matplotlib.pyplot as plt
 
-    states = list(data.keys())
-    abundance = list(data.values())
+    total = sum(data.values())
+    frequencies = {state: count/total for state, count in data.items()}
+
+    states = list(frequencies.keys())
+    abundance = list(frequencies.values())
 
     plt.bar(states, abundance)
     plt.xlabel("State")
@@ -70,8 +60,7 @@ def plot_abundances(data):
 
 
 if __name__ == "__main__":
-    energies = simulate_mc()
-    # build_and_plot_spectrum(energies, 'Photon emission')
-    # build_and_plot_spectrum(energies, 'Beta decay')
-    frequencies = simulate_last_state_abundance()
-    plot_abundances(frequencies)
+    last_states, energies = run(transitions, 'A')
+    build_and_plot_spectrum(energies, 'Photon emission')
+    build_and_plot_spectrum(energies, 'Beta decay')
+    plot_abundances(last_states)
