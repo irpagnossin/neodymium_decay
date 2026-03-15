@@ -48,11 +48,11 @@ transitions = {
     "10": [
         ("2",   0.013  /100, "Photon emission"),
         ("1",   0.001  /100, "Photon emission"),
-        ("0",   0.006  /100, "Photon emission"),
+        ("Pu",  0.006  /100, "Photon emission"),
     ],
     "9": [
         ("1",   0.0016 /100, "Photon emission"),
-        ("0",   0.0011 /100, "Photon emission"),
+        ("Pu",  0.0011 /100, "Photon emission"),
     ],
     "8": [
         ("6",   1.29   /100, "Photon emission"),
