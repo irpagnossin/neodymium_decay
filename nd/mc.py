@@ -1,6 +1,6 @@
-from dynamic import simulate
-from transitions import transitions
 from collections import Counter
+
+from .dynamic import simulate
 
 
 def merge_transitions(tA, tB: list[tuple[float, str]]):
@@ -12,12 +12,12 @@ def merge_transitions(tA, tB: list[tuple[float, str]]):
     return tA
 
 
-def run(transitions_profile, start_state, n_simulations: int = 1_000):
+def run(transitions_profile, energies, start_state, n_simulations: int = 1_000):
     last_states = Counter()
     executed_transitions = {}
 
     for _ in range(n_simulations):
-        trajectory, transitions = simulate(start_state, transitions_profile)
+        trajectory, transitions = simulate(transitions_profile, energies, start_state)
         executed_transitions = merge_transitions(executed_transitions, transitions)
         last_state = trajectory[-1]
         last_states[last_state] += 1
@@ -57,10 +57,3 @@ def plot_abundances(data):
     plt.title("Last state abundance")
     plt.ylim(0, 1)
     plt.show()
-
-
-if __name__ == "__main__":
-    last_states, energies = run(transitions, 'A')
-    build_and_plot_spectrum(energies, 'Photon emission')
-    build_and_plot_spectrum(energies, 'Beta decay')
-    plot_abundances(last_states)
