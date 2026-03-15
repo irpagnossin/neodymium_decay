@@ -1,5 +1,5 @@
-from nd import run, build_and_plot_spectrum, plot_abundances
-# from cases.eg_1 import energies, transitions
+from markov import run, build_and_plot_spectrum, plot_abundances
+# from cases.dummy_01 import energies, transitions
 from cases.Np import energies, transitions
 
 
