@@ -3,7 +3,7 @@ from collections import Counter
 from .dynamic import simulate
 
 
-def merge_transitions(tA, tB: list[tuple[float, str]]):
+def merge_transitions(tA, tB):
     for energy, process in tB:
         if process in tA:
             tA[process].append(energy)
@@ -37,7 +37,7 @@ def build_and_plot_spectrum(
 
     plt.bar(bin_edges[:-1], frequencies, width=np.diff(bin_edges), align='edge', edgecolor='black')
     plt.title(f'Espectro de energia: {process}')
-    plt.xlabel('Energia (MeV)')
+    plt.xlabel('Energia (keV)')
     plt.ylabel('Intensidade')
     plt.show()
 
