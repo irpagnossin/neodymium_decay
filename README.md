@@ -12,8 +12,10 @@ Opcional:
 
 ## Utilização
 
+O arquivo [main.py](./main.py) apresenta um exemplo de como executar a simulação para o Netúnio, cuja configuração está em [cases/Np.py](./cases/Np.py). Basta executá-lo:
+
 ```shell
 uv run main.py
 ```
 
-Se preferir não usar o `uv`, crie seu ambiente Conda, venv etc com as dependências listadas em [pyproject.toml](./pyproject.toml)
+Se preferir não usar o `uv`, crie seu ambiente Conda, venv etc com as dependências listadas em [pyproject.toml](./pyproject.toml), e execute o arquivo [main.py](./main.py).
