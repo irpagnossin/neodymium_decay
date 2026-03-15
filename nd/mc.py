@@ -12,7 +12,7 @@ def merge_transitions(tA, tB: list[tuple[float, str]]):
     return tA
 
 
-def run(transitions_profile, energies, start_state, n_simulations: int = 1_000):
+def run(transitions_profile, energies, start_state, n_simulations: int = 10_000):
     last_states = Counter()
     executed_transitions = {}
 
