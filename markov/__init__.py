@@ -1,6 +1,7 @@
 from .dynamic import (
     simulate as simulate,
     step as step,
+    SELF_TRANSITION as SELF_TRANSITION,
 )
 
 from .mc import (
@@ -8,3 +9,4 @@ from .mc import (
     build_and_plot_spectrum as build_and_plot_spectrum,
     plot_abundances as plot_abundances,
 )
+
